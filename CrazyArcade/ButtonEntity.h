@@ -1,16 +1,27 @@
 #pragma once
 
-#include "Entity.h"
+#include "DynamicEntity.h"
 
-class ButtonEntity : public Entity
+enum class CLICK_STATE
+{
+	Default,
+	LButtonDown,
+	RButtonDown,
+};
+
+class ButtonEntity : public DynamicEntity
 {
 public:
 	ButtonEntity() = default;
-	ButtonEntity(ENTITY_INDEX id, const VEC2& pos, const VEC2& size, HBITMAP bitmap);
+	ButtonEntity(ENTITY_INDEX id, const VEC2& pos, const VEC2& size, HBITMAP bitmap, int cols, int rows);
 	virtual ~ButtonEntity() = default;
 
 	virtual void Input() override;
 	virtual void Update() override;
-	virtual void Render(HDC dc) override;
+
+private:
+	CLICK_STATE _state = CLICK_STATE::Default;
+	POINT		_cursor = {};
+	bool		_isOverlapped = false;
 };
 

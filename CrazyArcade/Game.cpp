@@ -3,6 +3,7 @@
 
 bool Game::Init(HWND hwnd)
 {
+	_hwnd = hwnd;
 	SceneManager::Get().Init(hwnd);
 	return true;
 }

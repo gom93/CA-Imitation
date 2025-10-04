@@ -9,6 +9,8 @@ public:
 
 	void Process(HDC dc);
 
+	const std::list<Entity*>& GetEntities() const { return _entities; }
+
 private:
 	int _mapNum = 0;
 

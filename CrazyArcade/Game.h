@@ -13,5 +13,10 @@ public:
 	void LoadLobby();
 	void LoadInGame();
 	void LoadMap();
+
+	HWND GetHwnd() const { return _hwnd; }
+
+private:
+	HWND _hwnd = nullptr;
 };
 

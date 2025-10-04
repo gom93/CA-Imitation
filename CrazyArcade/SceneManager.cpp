@@ -43,6 +43,7 @@ void SceneManager::Process()
 	{
 	case SCENE_TYPE::Lobby:
 		_lobbyScene->Process(_memDC);
+		MessageQueue::Run(_lobbyScene->GetEntities(), _sceneType);
 		break;
 	case SCENE_TYPE::InGame:
 		break;

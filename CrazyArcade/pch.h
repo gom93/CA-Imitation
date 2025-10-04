@@ -14,6 +14,7 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+#include <cassert>
 
 // STL
 #include <list>
@@ -23,6 +24,7 @@
 #include <iostream>
 #include <fstream>
 #include <ostream>
+#include <queue>
 
 // Inner
 #include "Resource.h"

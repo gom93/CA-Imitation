@@ -25,14 +25,16 @@ struct IMAGE_DATA
 	int type;
 	int x;
 	int y;
-	int width;
-	int height;
+	int cols;
+	int rows;
 };
 
 enum class SCENE_TYPE
 {
 	Lobby,
+	Loading,
 	InGame,
+	Existing,
 };
 
 enum class ENTITY_TYPE
@@ -71,6 +73,7 @@ enum class ENTITY_INDEX
 	SpeedUP,
 	None,
 };
+
 
 
 

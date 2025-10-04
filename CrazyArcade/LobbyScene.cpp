@@ -13,13 +13,30 @@ void LobbyScene::LoadData(const std::vector<IMAGE_DATA*> images)
 		switch ((ENTITY_TYPE)image->type)
 		{
 		case ENTITY_TYPE::Static:
-			_entities.emplace_back(new StaticEntity((ENTITY_INDEX)image->id, VEC2{ image->x, image->y }, VEC2{ bitmap.bmWidth, bitmap.bmHeight }, image->bitmap));
+			_entities.emplace_back(new StaticEntity(
+				(ENTITY_INDEX)image->id, 
+				VEC2 { image->x, image->y }, 
+				VEC2 { bitmap.bmWidth, bitmap.bmHeight }, 
+				image->bitmap));
+
 			break;
 		case ENTITY_TYPE::Dynamic:
-			_entities.emplace_back(new StaticEntity((ENTITY_INDEX)image->id, VEC2{ image->x, image->y }, VEC2{ bitmap.bmWidth, bitmap.bmHeight }, image->bitmap));
+
+			_entities.emplace_back(new DynamicEntity(
+				(ENTITY_INDEX)image->id, 
+				VEC2 { image->x, image->y }, 
+				VEC2 { bitmap.bmWidth, bitmap.bmHeight }, 
+				image->bitmap, 
+				image->cols, image->rows));
+
 			break;
 		case ENTITY_TYPE::Button:
-			_entities.emplace_back(new StaticEntity((ENTITY_INDEX)image->id, VEC2{ image->x, image->y }, VEC2{ bitmap.bmWidth, bitmap.bmHeight }, image->bitmap));
+			_entities.emplace_back(new ButtonEntity(
+				(ENTITY_INDEX)image->id, 
+				VEC2 { image->x, image->y }, 
+				VEC2{ bitmap.bmWidth, bitmap.bmHeight }, 
+				image->bitmap, 
+				image->cols, image->rows));
 			break;
 		}
 	}
