@@ -15,6 +15,7 @@
 #include <memory.h>
 #include <tchar.h>
 #include <cassert>
+#include <mmsystem.h>
 
 // STL
 #include <list>
@@ -33,8 +34,10 @@
 #include "Game.h"
 #include "SceneManager.h"
 #include "ImageManager.h"
+#include "AudioManager.h"
 #include "MessageQueue.h"
 #include "Utils.h"
 
 // Lib
 #pragma comment(lib, "Msimg32.lib")
+#pragma comment(lib, "Winmm.lib")

@@ -18,18 +18,22 @@ class Entity;
 class MessageQueue
 {
 public:
-	static int StringToEnum(const std::string& str);
-	static void Run(const std::list<Entity*>& entities, OUT SCENE_TYPE& type);
+	static int		StringToEnum(const std::string& str);
 
-	static void AddEvent(CLICK_EVENT evt);
+	static void		Run(const std::list<Entity*>& entities, OUT SCENE_TYPE& type);
+
+	static void		AddEvent(CLICK_EVENT evt);
 
 private:
-	static void MessageLoop(const CLICK_EVENT evt, const std::list<Entity*>& entities, OUT SCENE_TYPE& type);
-	static void OnPickCharacter(const std::list<Entity*>& entities, bool isRight, CHARACTER_SELECT_TYPE type);
+	static void		MessageLoop(const CLICK_EVENT evt, const std::list<Entity*>& entities, OUT SCENE_TYPE& type);
+	static void		OnPickCharacter(const std::list<Entity*>& entities, bool isRight, CHARACTER_SELECT_TYPE type);
 
 private:
 	static std::unordered_map<std::string, int> s_strToEnumTable;
 
-	static std::queue<CLICK_EVENT> s_eventQueue;
+	static std::queue<CLICK_EVENT>				s_eventQueue;
+
+public:
+	static SELECT_DATA							SelectData;
 };
 

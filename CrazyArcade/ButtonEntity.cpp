@@ -23,10 +23,16 @@ void ButtonEntity::Input()
 	{
 		_isOverlapped = true;
 
+		if (_isPlayingAudio == false)
+		{
+			AudioManager::Get().PlayEffectSound(EFFECT_SOUND::OverlappedButton);
+			_isPlayingAudio = true;
+		}
 	}
 	else
 	{
 		_isOverlapped = false;
+		_isPlayingAudio = false;
 	}
 
 	if (_isOverlapped == false)

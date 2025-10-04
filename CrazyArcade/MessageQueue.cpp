@@ -32,6 +32,7 @@ std::unordered_map<std::string, int> MessageQueue::s_strToEnumTable =
 };
 
 std::queue<CLICK_EVENT> MessageQueue::s_eventQueue;
+SELECT_DATA MessageQueue::SelectData = {};
 
 int MessageQueue::StringToEnum(const std::string& str)
 {
@@ -75,8 +76,13 @@ void MessageQueue::MessageLoop(const CLICK_EVENT evt, const std::list<Entity*>& 
 		{
 			for (const auto& entity : entities)
 			{
-				int oldImageIndex = dynamic_cast<DynamicEntity*>(entity)->GetImageIndex();
-				dynamic_cast<DynamicEntity*>(entity)->SetImageIndex((oldImageIndex == 1 ? 0 : 1));
+				if (entity->GetId() == ENTITY_INDEX::Map)
+				{
+					int oldImageIndex = dynamic_cast<DynamicEntity*>(entity)->GetImageIndex();
+					dynamic_cast<DynamicEntity*>(entity)->SetImageIndex((oldImageIndex == 1 ? 0 : 1));
+
+					SelectData.mapIndex = (oldImageIndex == 1 ? 0 : 1);
+				}
 			}
 		}
 		break;
@@ -96,11 +102,15 @@ void MessageQueue::OnPickCharacter(const std::list<Entity*>& entities, bool isRi
 		if (entity->GetId() == ENTITY_INDEX::RedCharacter && isRight == false)
 		{
 			dynamic_cast<DynamicEntity*>(entity)->SetImageIndex((int)type);
+
+			SelectData.redCharacter = (int)type;
 		}
 
 		if (entity->GetId() == ENTITY_INDEX::BlueCharacter && isRight == true)
 		{
 			dynamic_cast<DynamicEntity*>(entity)->SetImageIndex((int)type);
+
+			SelectData.blueCharacter = (int)type;
 		}
 	}
 }

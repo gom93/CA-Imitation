@@ -70,6 +70,12 @@
     <ClInclude Include="ButtonEntity.h">
       <Filter>Entity</Filter>
     </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CrazyArcade.rc">
@@ -122,6 +128,12 @@
       <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="ButtonEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
   </ItemGroup>

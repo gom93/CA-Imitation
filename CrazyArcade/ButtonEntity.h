@@ -23,5 +23,6 @@ private:
 	CLICK_STATE _state = CLICK_STATE::Default;
 	POINT		_cursor = {};
 	bool		_isOverlapped = false;
+	bool		_isPlayingAudio = false;
 };
 

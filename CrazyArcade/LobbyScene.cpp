@@ -50,4 +50,16 @@ void LobbyScene::Process(HDC dc)
 		entity->Update();
 		entity->Render(dc);
 	}
+
+	SaveSelectData();
+}
+
+void LobbyScene::SaveSelectData()
+{
+	_selectData = MessageQueue::SelectData;
+}
+
+const SELECT_DATA& LobbyScene::GetSelectData() const
+{
+	return _selectData;
 }

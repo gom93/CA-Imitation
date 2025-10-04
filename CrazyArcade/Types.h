@@ -2,6 +2,9 @@
 
 const UINT SCREEN_WIDTH = 800;
 const UINT SCREEN_HEIGHT = 600;
+const UINT MAP_WIDTH_SIZE = 15;
+const UINT MAP_HEIGHT_SIZE = 11;
+const UINT PLAYER_NUM = 2;
 
 struct VEC2
 {
@@ -27,6 +30,30 @@ struct IMAGE_DATA
 	int y;
 	int cols;
 	int rows;
+};
+
+struct CHARACTER_STAT
+{
+	int bombNum;
+	int bombLength;
+	int speed;
+	int bombNumMax;
+	int bombLengthMax;
+	int speedMax;
+};
+
+struct MAP_DATA
+{
+	std::string name;
+	std::string path;
+	int data[MAP_HEIGHT_SIZE][MAP_WIDTH_SIZE];
+};
+
+struct SELECT_DATA
+{
+	int redCharacter;
+	int blueCharacter;
+	int mapIndex;
 };
 
 enum class SCENE_TYPE
@@ -74,7 +101,37 @@ enum class ENTITY_INDEX
 	None,
 };
 
+enum class BGM
+{
+	Room,
+	Patrit,
+};
 
+enum class EFFECT_SOUND
+{
+	Install,
+	Explosion,
+	OverlappedButton,
+	PickupItem,
+	ExplodeCharacter,
+};
+
+enum class TEAM_COLOR
+{
+	Red,
+	Blue,
+};
+
+enum class CHARACTER_NAME
+{
+	Bazzi,
+	Dizni,
+};
+
+enum class CHARACTER_STATE
+{
+	Normal,
+};
 
 
 

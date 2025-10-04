@@ -44,8 +44,10 @@ void SceneManager::Process()
 	case SCENE_TYPE::Lobby:
 		_lobbyScene->Process(_memDC);
 		MessageQueue::Run(_lobbyScene->GetEntities(), _sceneType);
+		_selectData = _lobbyScene->GetSelectData();
 		break;
 	case SCENE_TYPE::InGame:
+		_inGameScene->Process(_memDC);
 		break;
 	}
 
@@ -56,5 +58,29 @@ void SceneManager::LoadLobbyData(const std::vector<IMAGE_DATA*> images)
 {
 	_lobbyScene->LoadData(images);
 }
+
+void SceneManager::LoadInGameData(const std::vector<IMAGE_DATA*> images)
+{
+	_inGameScene->LoadInGameData(images);
+}
+
+void SceneManager::LoadCharacterData(const IMAGE_DATA** images, const CHARACTER_STAT* state)
+{
+	for (UINT i = 0; i < 2; i++)
+	{
+		_inGameScene->LoadCharacterData(images[i], /*Trapped Image*/images[2], /*Die Image*/images[3], state[i]);
+	}
+}
+
+void SceneManager::LoadItemData(const std::vector<IMAGE_DATA*> images)
+{
+	_inGameScene->LoadItemData(images);
+}
+
+void SceneManager::LoadMapData(const MAP_DATA& mapData)
+{
+	_inGameScene->LoadMapData(mapData);
+}
+
 
 
