@@ -1,7 +1,8 @@
 #pragma once
+
 #include "Entity.h"
-class DynamicEntity :
-    public Entity
+
+class DynamicEntity : public Entity
 {
 public:
 	DynamicEntity() = default;
@@ -16,10 +17,15 @@ public:
 	int		GetImageIndex() const { return _imageIndex; }
 
 protected:
-	int _cols = 0;
-	int _rows = 0;
-	int _imageWidth = 0;
-	int _imageHeight = 0;
-	int _imageIndex = 0;
+	bool	CheckPlayAnimation(OUT ULONGLONG& animTick, int delayTick);
+
+protected:
+	int				_cols = 0;
+	int				_rows = 0;
+	int				_imageWidth = 0;
+	int				_imageHeight = 0;
+	int				_imageIndex = 0;
+	ULONGLONG		_animTick = 0;
+	VEC2			_samplePos = {};
 };
 

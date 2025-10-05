@@ -1,6 +1,7 @@
 #pragma once
 
 class Character;
+class WaterBomb;
 
 class InGameScene
 {
@@ -12,10 +13,19 @@ public:
 
 	void Process(HDC dc);
 
-	const std::list<Entity*>& GetEntities() const { return _entities; }
+	const std::list<Entity*>& GetInGameEntities() const { return _inGameEntites; }
 
 private:
-	std::list<Entity*>		_entities;
+	void CreateBomb(Character* character);
+
+private:
+	std::list<Entity*>		_allEntites;
+	std::list<Entity*>		_inGameEntites;
 	std::list<Character*>	_characters;
+	std::list<WaterBomb*>	_waterBombs;
+
+	/* 0: Block, 1: Wall, 2: WaterBomb */
+	std::vector<IMAGE_DATA*> _entityDatas;	
+	std::vector<BITMAP>		 _entityBitmap;
 };
 

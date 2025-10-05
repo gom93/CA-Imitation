@@ -154,6 +154,7 @@
     <ClInclude Include="StaticEntity.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="WaterBomb.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="StaticEntity.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="WaterBomb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CrazyArcade.rc" />

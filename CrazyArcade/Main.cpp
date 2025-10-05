@@ -44,6 +44,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
     Game::Get().Init(hWnd);
     Game::Get().LoadLobby();
+
+    ULONGLONG tickCount = GetTickCount64();
     
     // Main message loop:
     while (true)
@@ -62,7 +64,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
 
-        Game::Get().Run();
+        if (GetTickCount64() - tickCount > 18) // 60fps 고정
+        {
+            tickCount = GetTickCount64();
+            Game::Get().Run();
+        }
     }
 
     Game::Get().Cleanup();
@@ -91,7 +97,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CRAZYARCADE));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_CRAZYARCADE);
+    wcex.lpszMenuName   = nullptr;  //MAKEINTRESOURCEW(IDC_CRAZYARCADE); // 메뉴창 제거
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -113,7 +119,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Store instance handle in our global variable
 
    hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, nullptr, nullptr, hInstance, nullptr);
+       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -138,8 +144,24 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    static RECT screenResolution = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+    static HCURSOR cursor = (HCURSOR)LoadImage(nullptr, L"Image/Default/Cursor.cur", IMAGE_CURSOR, 33, 36, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
     switch (message)
     {
+    case WM_CREATE:
+        AdjustWindowRect(&screenResolution, WS_OVERLAPPEDWINDOW, false);
+        MoveWindow(hWnd, 300, 300, screenResolution.right - screenResolution.left, screenResolution.bottom - screenResolution.top, true);
+        // SetCursor(cursor);
+        break;
+    case WM_GETMINMAXINFO: 
+        ((MINMAXINFO*)lParam)->ptMinTrackSize.x = screenResolution.right - screenResolution.left;
+        ((MINMAXINFO*)lParam)->ptMinTrackSize.y = screenResolution.bottom - screenResolution.top;
+        ((MINMAXINFO*)lParam)->ptMaxTrackSize.x = screenResolution.right - screenResolution.left;
+        ((MINMAXINFO*)lParam)->ptMaxTrackSize.y = screenResolution.bottom - screenResolution.top;
+        break;
+    case WM_SETCURSOR:          
+        // SetCursor(cursor);
+        break;
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);

@@ -118,6 +118,7 @@ enum class EFFECT_SOUND
 
 enum class TEAM_COLOR
 {
+	None,
 	Red,
 	Blue,
 };
@@ -131,6 +132,15 @@ enum class CHARACTER_NAME
 enum class CHARACTER_STATE
 {
 	Normal,
+};
+
+enum class DIRECTION
+{
+	Center,
+	Left,
+	Right,
+	Up,
+	Down,
 };
 
 

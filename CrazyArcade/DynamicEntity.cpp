@@ -45,3 +45,13 @@ void DynamicEntity::SetImageIndex(int index)
 
 	_imageIndex = index;
 }
+
+bool DynamicEntity::CheckPlayAnimation(OUT ULONGLONG& animTick, int delayTick)
+{
+	if (GetTickCount64() - animTick > delayTick)
+	{
+		animTick = GetTickCount64();
+		return true;
+	}
+	return false;
+}
