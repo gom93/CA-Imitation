@@ -12,7 +12,7 @@ public:
 
 	void LoadLobby();
 	void LoadInGame();
-	void LoadMap();
+	void LoadMapData();
 
 	HWND GetHwnd() const { return _hwnd; }
 

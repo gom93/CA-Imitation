@@ -5,6 +5,8 @@
 #include "ButtonEntity.h"
 #include "Character.h"
 #include "WaterBomb.h"
+#include "Block.h"
+#include "Wall.h"
 
 void InGameScene::LoadInGameData(const std::vector<IMAGE_DATA*> images)
 {
@@ -71,9 +73,40 @@ void InGameScene::LoadItemData(const std::vector<IMAGE_DATA*> images)
 {
 }
 
-void InGameScene::LoadMapData(const MAP_DATA& mapData)
+void InGameScene::SetMapData(const MAP_DATA& mapData)
 {
+	_mapData = mapData;
+}
 
+void InGameScene::LoadStaticEntityData()
+{
+	for (int row = 0; row < MAP_HEIGHT_SIZE; row++)
+	{
+		for (int col = 0; col < MAP_WIDTH_SIZE; col++)
+		{
+			switch ((MAP_ENTITY)_mapData.data[row][col])
+			{
+			case MAP_ENTITY::Block:
+				_inGameEntites.emplace_back(new Block(
+					(ENTITY_INDEX)_entityDatas[0]->id,
+					VEC2{ _entityDatas[0]->x + col * _entityBitmap[0].bmWidth, _entityDatas[0]->y + row * _entityBitmap[0].bmHeight},
+					VEC2{ _entityBitmap[0].bmWidth, _entityBitmap[0].bmHeight },
+					_entityDatas[0]->bitmap
+				));
+				_allEntites.emplace_back(_inGameEntites.back());
+				break;
+			case MAP_ENTITY::Wall:
+				_inGameEntites.emplace_back(new Wall(
+					(ENTITY_INDEX)_entityDatas[1]->id,
+					VEC2{ _entityDatas[1]->x + col * _entityBitmap[1].bmWidth, _entityDatas[1]->y + row * _entityBitmap[1].bmHeight },
+					VEC2{ _entityBitmap[1].bmWidth, _entityBitmap[1].bmHeight },
+					_entityDatas[1]->bitmap
+				));
+				_allEntites.emplace_back(_inGameEntites.back());
+				break;
+			}
+		}
+	}
 }
 
 void InGameScene::Process(HDC dc)

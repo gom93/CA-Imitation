@@ -79,7 +79,8 @@ void SceneManager::LoadItemData(const std::vector<IMAGE_DATA*> images)
 
 void SceneManager::LoadMapData(const MAP_DATA& mapData)
 {
-	_inGameScene->LoadMapData(mapData);
+	_inGameScene->SetMapData(mapData);
+	_inGameScene->LoadStaticEntityData();
 }
 
 

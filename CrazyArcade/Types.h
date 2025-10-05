@@ -101,6 +101,15 @@ enum class ENTITY_INDEX
 	None,
 };
 
+enum class MAP_ENTITY
+{
+	Empty,
+	Block,
+	Wall,
+	WaterBomb,
+	Item
+};
+
 enum class BGM
 {
 	Room,

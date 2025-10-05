@@ -9,7 +9,8 @@ public:
 	void LoadInGameData(const std::vector<IMAGE_DATA*> images);
 	void LoadCharacterData(const IMAGE_DATA* characterImage, const IMAGE_DATA* trappedImage, const IMAGE_DATA* dieImage, const CHARACTER_STAT& characterStats);
 	void LoadItemData(const std::vector<IMAGE_DATA*> images);
-	void LoadMapData(const MAP_DATA& mapData);
+	void SetMapData(const MAP_DATA& mapData);
+	void LoadStaticEntityData();
 
 	void Process(HDC dc);
 
@@ -27,5 +28,7 @@ private:
 	/* 0: Block, 1: Wall, 2: WaterBomb */
 	std::vector<IMAGE_DATA*> _entityDatas;	
 	std::vector<BITMAP>		 _entityBitmap;
+
+	MAP_DATA				_mapData = {};
 };
 

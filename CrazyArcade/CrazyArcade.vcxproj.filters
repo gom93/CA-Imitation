@@ -79,6 +79,15 @@
     <ClInclude Include="WaterBomb.h">
       <Filter>Entity</Filter>
     </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CrazyArcade.rc">
@@ -140,6 +149,15 @@
       <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="WaterBomb.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
   </ItemGroup>

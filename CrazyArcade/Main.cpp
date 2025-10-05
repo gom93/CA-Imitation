@@ -44,6 +44,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
     Game::Get().Init(hWnd);
     Game::Get().LoadLobby();
+    Game::Get().LoadMapData();
 
     ULONGLONG tickCount = GetTickCount64();
     
