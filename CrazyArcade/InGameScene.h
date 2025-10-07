@@ -1,5 +1,6 @@
 #pragma once
 
+class Entity;
 class Character;
 class WaterBomb;
 
@@ -18,6 +19,9 @@ public:
 
 private:
 	void CreateBomb(Character* character);
+	void DestroyBombs();
+
+	static bool EraseBomb(Entity* entity);
 
 private:
 	std::list<Entity*>		_allEntites;
@@ -30,5 +34,7 @@ private:
 	std::vector<BITMAP>		 _entityBitmap;
 
 	MAP_DATA				_mapData = {};
+
+	static VEC2				_eraseBombPos;
 };
 

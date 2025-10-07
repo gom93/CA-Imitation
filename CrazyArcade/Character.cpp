@@ -63,9 +63,12 @@ void Character::Input()
 		{
 			if ((GetAsyncKeyState(VK_RSHIFT) & 0x0001) && _isDirtyFlag)
 			{
-				_attack.pos.x = _pos.x;
+				_attack.pos.x = _pos.x + _imageWidth / 2;
 				_attack.pos.y = _pos.y + _imageHeight / 2;
+				SetBombPosition();
+
 				_attack.isAttack = true;
+				_attack.color = _color;
 
 				_installedBombNum++;
 
@@ -137,6 +140,12 @@ void Character::FinalUpdate()
 	_dir = DIRECTION::Center;
 }
 
+void Character::DecreaseBombNum()
+{
+	assert(_installedBombNum > 0);
+	_installedBombNum--;
+}
+
 void Character::PlayAnimation(DIRECTION dir)
 {
 	switch (_dir)
@@ -185,5 +194,38 @@ void Character::PlayAnimation(DIRECTION dir)
 			}
 		}
 		break;
+	}
+}
+
+void Character::SetBombPosition()
+{
+	int epsilon = (_attack.pos.x + MAP_OFFSET_X) % BLOCK_WIDTH;
+
+	// X 위치가 사이에 Block 사이에 위치해 있을 경우
+	if (epsilon != 0)
+	{
+		if (epsilon >= BLOCK_WIDTH / 2)
+		{
+			_attack.pos.x = _attack.pos.x + (BLOCK_WIDTH - epsilon);
+		}
+		else
+		{
+			_attack.pos.x = _attack.pos.x - epsilon;
+		}
+	}
+
+	epsilon = (_attack.pos.y + MAP_OFFSET_Y) % BLOCK_HEIGHT;
+
+	// Y 위치가 사이에 Block 사이에 위치해 있을 경우
+	if (epsilon != 0)
+	{
+		if (epsilon >= BLOCK_HEIGHT / 2)
+		{
+			_attack.pos.y = _attack.pos.y + (BLOCK_HEIGHT - epsilon);
+		}
+		else
+		{
+			_attack.pos.y = _attack.pos.y - epsilon;
+		}
 	}
 }

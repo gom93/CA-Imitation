@@ -1,10 +1,14 @@
 #pragma once
 
-const UINT SCREEN_WIDTH = 800;
-const UINT SCREEN_HEIGHT = 600;
-const UINT MAP_WIDTH_SIZE = 15;
-const UINT MAP_HEIGHT_SIZE = 11;
-const UINT PLAYER_NUM = 2;
+const UINT SCREEN_WIDTH		= 800;
+const UINT SCREEN_HEIGHT	= 600;
+const UINT MAP_WIDTH_SIZE	= 15;
+const UINT MAP_HEIGHT_SIZE	= 11;
+const UINT MAP_OFFSET_X		= 20;
+const UINT MAP_OFFSET_Y		= 45;
+const UINT PLAYER_NUM		= 2;
+const UINT BLOCK_WIDTH		= 40;			// Block bitmap pixel : 40
+const UINT BLOCK_HEIGHT		= 47;			// Block bitmap pixel : 47
 
 struct VEC2
 {

@@ -22,13 +22,17 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC dc) override;
 
-	void		 FinalUpdate();
+	void			FinalUpdate();
 
-	ATTACK_HANDLE& GetAttackHandle() { return _attack; }
-	int			   GetWaterBombLength() { return _stats.bombLength; }
+	ATTACK_HANDLE&	GetAttackHandle() { return _attack; }
+	int				GetWaterBombLength() { return _stats.bombLength; }
+	TEAM_COLOR		GetColor() const { return _color; }
+
+	void			DecreaseBombNum();
 
 private:
 	void			PlayAnimation(DIRECTION dir);
+	void			SetBombPosition();
 
 private:
 	CHARACTER_STAT	_stats = {};

@@ -8,6 +8,10 @@
 #include "Block.h"
 #include "Wall.h"
 
+const int WALL_SIZE_TUNING = 20;
+
+VEC2 InGameScene::_eraseBombPos = {};
+
 void InGameScene::LoadInGameData(const std::vector<IMAGE_DATA*> images)
 {
 	BITMAP bitmap;
@@ -98,7 +102,8 @@ void InGameScene::LoadStaticEntityData()
 			case MAP_ENTITY::Wall:
 				_inGameEntites.emplace_back(new Wall(
 					(ENTITY_INDEX)_entityDatas[1]->id,
-					VEC2{ _entityDatas[1]->x + col * _entityBitmap[1].bmWidth, _entityDatas[1]->y + row * _entityBitmap[1].bmHeight },
+					// Wall Size 와 Block Size 차이로 SIZE_TUNING 진행
+					VEC2{ _entityDatas[1]->x + col * _entityBitmap[0].bmWidth, _entityDatas[1]->y + row * _entityBitmap[0].bmHeight - WALL_SIZE_TUNING },
 					VEC2{ _entityBitmap[1].bmWidth, _entityBitmap[1].bmHeight },
 					_entityDatas[1]->bitmap
 				));
@@ -116,6 +121,8 @@ void InGameScene::Process(HDC dc)
 		inGameEntity->Input();
 		inGameEntity->Update();
 	}
+
+	DestroyBombs();
 
 	for (WaterBomb* waterBomb : _waterBombs)
 	{
@@ -154,6 +161,57 @@ void InGameScene::CreateBomb(Character* character)
 			character->GetWaterBombLength()
 		));
 
+		_waterBombs.back()->SetColor(attack.color);
+
+		_waterBombs.back()->SetMapData(&_mapData);
+
 		_allEntites.emplace_back(_waterBombs.back());
 	}
+}
+
+void InGameScene::DestroyBombs()
+{
+	std::list<WaterBomb*>::iterator iter = _waterBombs.begin();
+	for (; iter != _waterBombs.end();)
+	{
+		if (BOMB_STATE::Destroy == (*iter)->GetState())
+		{
+			switch ((*iter)->GetColor())
+			{
+			case TEAM_COLOR::Red:
+				for (Character* character : _characters)
+				{
+					if (character->GetColor() == (*iter)->GetColor())
+					{
+						character->DecreaseBombNum();
+					}
+				}
+				break;
+			case TEAM_COLOR::Blue:
+				for (Character* character : _characters)
+				{
+					if (character->GetColor() == (*iter)->GetColor())
+					{
+						character->DecreaseBombNum();
+					}
+				}
+				break;
+			}
+
+			_eraseBombPos = (*iter)->GetPosition();
+			_allEntites.remove_if(EraseBomb);
+
+			delete (*iter);
+			iter = _waterBombs.erase(iter);
+		}
+		else
+		{
+			iter++;
+		}
+	}
+}
+
+bool InGameScene::EraseBomb(Entity* entity)
+{
+	return (entity->GetPosition().x == _eraseBombPos.x) && (entity->GetPosition().y == _eraseBombPos.y);
 }
