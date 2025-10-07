@@ -63,8 +63,8 @@ void Character::Input()
 		{
 			if ((GetAsyncKeyState(VK_RSHIFT) & 0x0001) && _isDirtyFlag)
 			{
-				_attack.pos.x = _pos.x + _imageWidth / 2;
-				_attack.pos.y = _pos.y + _imageHeight / 2;
+				_attack.pos.x = _pos.x;
+				_attack.pos.y = _pos.y;
 				SetBombPosition();
 
 				_attack.isAttack = true;
@@ -135,8 +135,11 @@ void Character::Render(HDC dc)
 		RGB(255, 0, 255));
 }
 
-void Character::FinalUpdate()
+void Character::FinalUpdate(const std::list<Entity*>& inGameEntities)
 {
+	CheckBorder();
+	CheckMove(inGameEntities);
+
 	_dir = DIRECTION::Center;
 }
 
@@ -228,4 +231,125 @@ void Character::SetBombPosition()
 			_attack.pos.y = _attack.pos.y - epsilon;
 		}
 	}
+}
+
+void Character::CheckBorder()
+{
+	// X
+	if (_pos.x <= MAP_OFFSET_X)
+	{
+		_pos.x = MAP_OFFSET_X;
+	}
+	else if (_pos.x >= (MAP_WIDTH_SIZE * BLOCK_WIDTH - BLOCK_WIDTH / 2))
+	{
+		_pos.x = (MAP_WIDTH_SIZE * BLOCK_WIDTH - BLOCK_WIDTH / 2);
+	}
+
+	// Y
+	if (_pos.y <= MAP_OFFSET_Y)
+	{
+		_pos.y = MAP_OFFSET_Y;
+	}
+	else if (_pos.y >= (MAP_HEIGHT_SIZE * BLOCK_HEIGHT - BLOCK_HEIGHT / 2))
+	{
+		_pos.y = (MAP_HEIGHT_SIZE * BLOCK_HEIGHT - BLOCK_HEIGHT / 2);
+	}
+}
+
+void Character::CheckMove(const std::list<Entity*>& inGameEntities)
+{
+	RECT ownRect =
+	{
+		_pos.x, _pos.y,
+		(LONG)(_pos.x + BLOCK_WIDTH), 
+		(LONG)(_pos.y + BLOCK_HEIGHT)
+	};
+
+	RECT entityRect = {};
+	for (Entity* entity : inGameEntities)
+	{
+		if (entity->GetId() == ENTITY_INDEX::Background)
+		{
+			continue;
+		}
+		else if (entity->GetId() == ENTITY_INDEX::Block)
+		{
+			entityRect = ConvertToRect(entity->GetPosition(), true);
+		}
+		else if (entity->GetId() == ENTITY_INDEX::Wall)
+		{
+			entityRect = ConvertToRect(entity->GetPosition(), false);
+		}
+
+		if (CheckCollision(ownRect, entityRect))
+		{
+			switch (_dir)
+			{
+			case DIRECTION::Up:
+				if (entityRect.right > ownRect.left)
+				{
+					_pos.x++;
+				}
+				else if (entityRect.left < ownRect.left)
+				{
+					_pos.x--;
+				}
+				_pos.y = entityRect.bottom;
+				break;
+			case DIRECTION::Down:
+				if (entityRect.right > ownRect.left)
+				{
+					_pos.x++;
+				}
+				else if (entityRect.left < ownRect.left)
+				{
+					_pos.x--;
+				}
+				_pos.y = entityRect.top - BLOCK_HEIGHT;
+				break;
+			case DIRECTION::Left:
+				if (entityRect.bottom > ownRect.top)
+				{
+					_pos.y++;
+				}
+				else if (entityRect.top < ownRect.bottom)
+				{
+					_pos.y--;
+				}
+				_pos.x = entityRect.right;
+				break;
+			case DIRECTION::Right:
+				if (entityRect.bottom > ownRect.top)
+				{
+					_pos.y++;
+				}
+				else if (entityRect.bottom < ownRect.top)
+				{
+					_pos.y--;
+				}
+				_pos.x = entityRect.left - BLOCK_WIDTH;
+				break;
+			}
+		}
+	}
+}
+
+bool Character::CheckCollision(const RECT& a, const RECT& b)
+{
+	if (a.left < b.left && a.right > b.left &&
+		a.top < b.bottom && a.bottom > b.top)
+	{
+		return true;
+	}
+	return false;
+}
+
+RECT Character::ConvertToRect(const VEC2& pos, bool tuning)
+{
+	RECT rt = {};
+	rt.left = pos.x;
+	rt.top = tuning ? pos.y - WALL_SIZE_TUNING : pos.y;
+	rt.right = pos.x + BLOCK_WIDTH;
+	rt.bottom = tuning ? pos.y + BLOCK_HEIGHT - WALL_SIZE_TUNING : pos.y + BLOCK_HEIGHT;
+	return rt;
 }

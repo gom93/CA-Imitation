@@ -29,20 +29,25 @@ public:
 
 	void		RenderExplosion(HDC dc, int area, DIRECTION dir);
 
-	void		SetMapData(const MAP_DATA* mapData);
+	void		SetMapData(MAP_DATA* mapData);
 	BOMB_STATE	GetState() const { return _state; }
 	void		SetColor(TEAM_COLOR color) { _color = color; }
 	TEAM_COLOR	GetColor() const { return _color; }
+	VEC2		GetPosInMap() const { return _mapPos; }
+	
+	const std::vector<VEC2>& GetBlockPosList() const { return _hitBlockPosList; }
+	const std::vector<VEC2>& GetBombPosList() const { return _hitBombPosList; }
+
+	void		SetExplosionState();
 
 private:
-	void		SetExplosionState();
 	void		SetExplosionArea(int x, int y, DIRECTION dir, OUT int& area);
 
 private:
 	int					_waterLength = 0;
 	BOMB_STATE			_state = BOMB_STATE::Default;
 	EXPLOSION_AREA		_explosionArea = {};
-	const MAP_DATA*		_mapData = nullptr;
+	MAP_DATA*			_mapData = nullptr;
 	VEC2				_mapPos = {};
 	std::vector<VEC2>	_hitBlockPosList = {};
 	std::vector<VEC2>	_hitBombPosList = {};

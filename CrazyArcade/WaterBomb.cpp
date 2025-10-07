@@ -136,7 +136,7 @@ void WaterBomb::RenderExplosion(HDC dc, int area, DIRECTION dir)
 	}
 }
 
-void WaterBomb::SetMapData(const MAP_DATA* mapData)
+void WaterBomb::SetMapData(MAP_DATA* mapData)
 {
 	_mapData = mapData;
 
@@ -152,10 +152,14 @@ void WaterBomb::SetExplosionState()
 	_samplePos.x = 0;
 	_samplePos.y = 0;
 
+	// Æø¹ß ¹üÀ§ °è»ê
 	SetExplosionArea(_mapPos.x, _mapPos.y, DIRECTION::Up, _explosionArea.north);
 	SetExplosionArea(_mapPos.x, _mapPos.y, DIRECTION::Down, _explosionArea.south);
 	SetExplosionArea(_mapPos.x, _mapPos.y, DIRECTION::Right, _explosionArea.east);
 	SetExplosionArea(_mapPos.x, _mapPos.y, DIRECTION::Left, _explosionArea.west);
+
+	// ¹°ÆøÅº ¸Ê¿¡¼­ Á¦°Å
+	_mapData->data[_mapPos.y][_mapPos.x] = (int)MAP_ENTITY::Empty;
 }
 
 void WaterBomb::SetExplosionArea(int x, int y, DIRECTION dir, OUT int& area)

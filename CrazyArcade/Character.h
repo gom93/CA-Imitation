@@ -22,7 +22,7 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC dc) override;
 
-	void			FinalUpdate();
+	void			FinalUpdate(const std::list<Entity*>& inGameEntities);
 
 	ATTACK_HANDLE&	GetAttackHandle() { return _attack; }
 	int				GetWaterBombLength() { return _stats.bombLength; }
@@ -33,6 +33,11 @@ public:
 private:
 	void			PlayAnimation(DIRECTION dir);
 	void			SetBombPosition();
+	void			CheckBorder();
+	void			CheckMove(const std::list<Entity*>& inGameEntities);
+
+	bool			CheckCollision(const RECT& a, const RECT& b);
+	RECT			ConvertToRect(const VEC2& pos, bool tuning);
 
 private:
 	CHARACTER_STAT	_stats = {};
